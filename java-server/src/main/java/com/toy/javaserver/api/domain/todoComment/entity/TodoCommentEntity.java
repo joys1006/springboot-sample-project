@@ -31,7 +31,7 @@ public class TodoCommentEntity {
     private Long todoId;
 
     @Type(type = CustomEnumType.NAME)
-    @Column(name = "visibilityType")
+    @Column(name = "visibility_type")
     private VisibilityType visibilityType;
 
     @Column

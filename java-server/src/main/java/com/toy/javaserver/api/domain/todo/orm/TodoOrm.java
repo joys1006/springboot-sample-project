@@ -30,7 +30,7 @@ public class TodoOrm extends TodoEntity implements Serializable {
      * todo.id > todoComment.id = 1 : N
      */
     @JsonManagedReference
-    @OneToMany(mappedBy = "TodoOrm", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "todoOrm", fetch = FetchType.LAZY)
     @BatchSize(size = 100)
     @OrderBy("id DESC")
     private List<TodoCommentOrm> todoCommentOrms = new ArrayList<>();
