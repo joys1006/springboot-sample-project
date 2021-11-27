@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+app:
+  character-Encoding: utf8
+  use-unicode: true
+
+spring:
+  profiles: local
+
+# database 설정(read, write)
+database:
+  datasource-read:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/todo?zeroDateTimeBeha=convertToNull&useSSL=false&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    username: root
+    password: joys1004
+  datasource-write:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/todo?zeroDateTimeBeha=convertToNull&useSSL=false&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    username: root
+    password: joys1004
