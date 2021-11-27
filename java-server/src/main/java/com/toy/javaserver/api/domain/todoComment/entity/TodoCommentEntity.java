@@ -1,24 +1,24 @@
-package com.toy.javaserver.api.domain.todo.entity;
+package com.toy.javaserver.api.domain.todoComment.entity;
 
 import com.toy.javaserver.api.common.type.CustomEnumType;
 import com.toy.javaserver.api.domain.todo.enums.TodoType;
+import com.toy.javaserver.api.domain.todoComment.enums.VisibilityType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-//import com.toy.javaserver.api.domain.todo.enums.TodoType;
-
 @MappedSuperclass
-@Table(name = "Todo")
+@Table(name = "TodoComment")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @EqualsAndHashCode(callSuper = false)
-public class TodoEntity {
+public class TodoCommentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,15 +27,18 @@ public class TodoEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Type(type = CustomEnumType.NAME)
-    @Column(name = "todo_type")
-    private TodoType todoType;
+    @Column(name = "todo_id")
+    private Long todoId;
 
-    @Column
-    private String title;
+    @Type(type = CustomEnumType.NAME)
+    @Column(name = "visibilityType")
+    private VisibilityType visibilityType;
 
     @Column
     private String content;
+
+    @Column
+    private String author;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
