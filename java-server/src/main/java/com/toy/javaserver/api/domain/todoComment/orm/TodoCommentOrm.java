@@ -28,6 +28,6 @@ public class TodoCommentOrm extends TodoCommentEntity implements Serializable {
      */
     @JsonBackReference
     @ManyToOne(targetEntity = TodoOrm.class, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "`todo_id`", referencedColumnName = "`id`", insertable = false, updatable = false)
+    @JoinColumn(name = "todo_id", referencedColumnName = "id", insertable = false, updatable = false)
     private TodoOrm todoOrm;
 }
