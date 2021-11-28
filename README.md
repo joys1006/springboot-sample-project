@@ -38,24 +38,29 @@ CREATE TABLE `User` (
   `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userId_UNIQUE` (`user_id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `idx_User_created_at` (`created_at`),
+  KEY `idx_User_update_at` (`update_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ```
 #Create Todo Table SQL
 ```
-CREATE TABLE `Todo` (
+CREATE TABLE `TodoComment` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(11) unsigned NOT NULL,
-  `todo_type` tinyint(4) unsigned NOT NULL,
-  `title` varchar(45) NOT NULL,
-  `content` varchar(45) NOT NULL,
+  `todo_id` bigint(11) unsigned NOT NULL,
+  `visibility_type` tinyint(1) unsigned NOT NULL,
   `author` varchar(20) NOT NULL,
+  `content` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `idx_todo_item_created_at` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8
+  KEY `idx_TodoComment_user_id` (`user_id`),
+  KEY `idx_TodoComment_created_at` (`created_at`),
+  KEY `idx_TodoComment_updated_at` (`updated_at`),
+  KEY `idx_TodoComment_todo_id` (`todo_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ```
 #Create TodoComment Table SQL
 ```
@@ -69,6 +74,10 @@ CREATE TABLE `TodoComment` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `idx_TodoComment_user_id` (`user_id`),
+  KEY `idx_TodoComment_created_at` (`created_at`),
+  KEY `idx_TodoComment_updated_at` (`updated_at`),
+  KEY `idx_TodoComment_todo_id` (`todo_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ```
