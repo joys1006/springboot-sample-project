@@ -1,8 +1,10 @@
 package com.toy.javaserver.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
+import com.toy.javaserver.api.common.dto.request.SignUpRequestDto;
 import com.toy.javaserver.api.common.helpers.AuthorizedControllerHelper;
-import com.toy.javaserver.api.domain.todo.service.TodoService;
+import com.toy.javaserver.api.domain.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,15 +18,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
-@ContextConfiguration(classes = { TodoController.class })
-@DisplayName("TodoController 테스트")
-class TodoControllerTest {
+@ContextConfiguration(classes = { UserController.class })
+@DisplayName("UserControllerTest 테스트")
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,7 +37,7 @@ class TodoControllerTest {
     private WebApplicationContext context;
 
     @MockBean
-    private TodoService todoService;
+    private UserService userService;
 
     private HttpHeaders httpHeaders;
 
@@ -52,11 +53,36 @@ class TodoControllerTest {
     }
 
     @Test
-    @DisplayName("할일 단건 조회 성공 테스트")
-    void getTodos() throws Exception {
-        MockHttpServletRequestBuilder requestBuilder = get("/v1/todos/{todoId}", 1)
+    @DisplayName("로그인 응답 테스트")
+    void signIn() throws Exception {
+        SignInRequestDto request = new SignInRequestDto();
+
+        request.setUserId("test1");
+        request.setPassword("1234");
+
+        MockHttpServletRequestBuilder requestBuilder = post("/v1/users/sign-in")
                 .headers(httpHeaders)
-                .contentType(MediaType.APPLICATION_JSON);
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request));
+
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("회원가입 응답 테스트")
+    void singUp() throws Exception {
+        SignUpRequestDto request = new SignUpRequestDto();
+
+        request.setUserId("test");
+        request.setPassword("1234");
+        request.setName("테스트");
+
+        MockHttpServletRequestBuilder requestBuilder = post("/v1/users/sign-up")
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request));
 
         mockMvc.perform(requestBuilder)
                 .andDo(print())

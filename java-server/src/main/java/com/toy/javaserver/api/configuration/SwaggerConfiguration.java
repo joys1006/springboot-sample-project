@@ -2,6 +2,8 @@ package com.toy.javaserver.api.configuration;
 
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
+import springfox.documentation.builders.ParameterBuilder;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.AuthorizationScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,28 +27,24 @@ public class SwaggerConfiguration {
     private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES = new HashSet<>(Arrays.asList("application/json"));
 
     @Bean
-    SecurityContext securityContext() {
-        return SecurityContext.builder()
-                .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.any())
-                .build();
-    }
-
-    ArrayList<SecurityReference> defaultAuth() {
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        return Lists.newArrayList();
-//                new SecurityReference("JWT", authorizationScopes));
-    }
-
-    @Bean
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
-//                .securitySchemes(Lists.newArrayList(
-//                        new ApiKey("JWT", "X-AUTH-TOKEN", "header")
-//                ))
-//                .securityContexts(Lists.newArrayList(securityContext()))
+                .globalOperationParameters(
+                        Arrays.asList(
+                                new ParameterBuilder()
+                                    .name("X-AUTH-TOKEN")
+                                    .description("ACCESS-TOKEN")
+                                    .modelRef(new ModelRef("string"))
+                                    .parameterType("header")
+                                    .defaultValue("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTYzODExMTI0OCwiZXhwIjoxNjM4MTE0ODQ4fQ.RsBralAefu_O21t3jfzzi8INAm-xVpO7EkKq5cSDlrg")
+                                    .required(true)
+                                    .build()
+                        )
+                )
+                .securitySchemes(Lists.newArrayList(
+                        new ApiKey("JWT", "X-AUTH-TOKEN", "header")
+                ))
+                .securityContexts(Lists.newArrayList(securityContext()))
                 .select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
                 .paths(PathSelectors.any())
@@ -56,22 +54,21 @@ public class SwaggerConfiguration {
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES);
     }
 
-//    @Bean
-//    SecurityContext securityContext() {
-//        return SecurityContext.builder()
-//                .securityReferences(defaultAuth())
-//                .forPaths(PathSelectors.any())
-//                .build();
-//    }
-//
-//    ArrayList<SecurityReference> defaultAuth() {
-//        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-//        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-//        authorizationScopes[0] = authorizationScope;
-//        return Lists.newArrayList(
-//                new SecurityReference("JWT", authorizationScopes),
-//                new SecurityReference("AFFILIATE_ID", authorizationScopes));
-//    }
+    @Bean
+    public SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.any())
+                .build();
+    }
+
+    private ArrayList<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+
+        return Lists.newArrayList(new SecurityReference("JWT", authorizationScopes));
+    }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(

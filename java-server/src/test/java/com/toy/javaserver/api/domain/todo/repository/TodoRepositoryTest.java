@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles({"local"})
 @DataJpaTest
@@ -38,7 +37,7 @@ class TodoRepositoryTest {
         TodoOrm todoOrm = new TodoOrm();
 
         todoOrm.setId(1L);
-        todoOrm.setUserId(1L);
+        todoOrm.setUserId(3L);
         todoOrm.setTodoType(TodoType.DO_TO);
         todoOrm.setTitle("테스트");
         todoOrm.setContent("테스트");
