@@ -21,3 +21,54 @@ Gradle Project
 - ModalMapper v2.3.0
 - Hystrix v2.0.1
 - DataBase MySql
+
+#Table relation
+user - todo = 1:N
+user - todoComment = 1:N
+todo - todoComment = 1:N
+
+#Create User Table SQL
+```
+CREATE TABLE `User` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `userId_UNIQUE` (`user_id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+```
+#Create Todo Table SQL
+```
+CREATE TABLE `Todo` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(11) unsigned NOT NULL,
+  `todo_type` tinyint(4) unsigned NOT NULL,
+  `title` varchar(45) NOT NULL,
+  `content` varchar(45) NOT NULL,
+  `author` varchar(20) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `idx_todo_item_created_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8
+```
+#Create TodoComment Table SQL
+```
+CREATE TABLE `TodoComment` (
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(11) unsigned NOT NULL,
+  `todo_id` bigint(11) unsigned NOT NULL,
+  `visibility_type` tinyint(1) unsigned NOT NULL,
+  `author` varchar(20) NOT NULL,
+  `content` varchar(45) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+```
