@@ -1,13 +1,9 @@
 package com.toy.javaserver.api;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-//@SpringBootTest
-//class JavaServerApplicationTests {
-//
-//	@Test
-//	void contextLoads() {
-//	}
-//
-//}
+@SpringBootTest(classes = JavaServerApplication.class)
+class JavaServerApplicationTests extends SpringBootServletInitializer {
+	void contextLoads() {}
+}

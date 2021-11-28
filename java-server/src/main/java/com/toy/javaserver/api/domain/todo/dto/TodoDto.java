@@ -22,11 +22,13 @@ public class TodoDto {
 
     private String content;
 
-    private List<TodoCommentDto> todoComments = new ArrayList<>();
+    private String author;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private List<TodoCommentDto> todoComments = new ArrayList<>();
 
     public TodoDto(TodoOrm todoOrm) {
         MapperSupport.map(todoOrm, this);
