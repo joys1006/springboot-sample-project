@@ -4,7 +4,6 @@ import com.toy.javaserver.api.domain.todo.dto.TodoDto;
 import com.toy.javaserver.api.domain.todo.service.TodoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
