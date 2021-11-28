@@ -30,37 +30,35 @@ todo - todoComment = 1:N
 #Create User Table SQL
 ```
 CREATE TABLE `User` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(64) NOT NULL,
+  `password` varchar(72) NOT NULL,
   `name` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `userId_UNIQUE` (`user_id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `idx_User_created_at` (`created_at`),
-  KEY `idx_User_update_at` (`update_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  KEY `idx_User_update_at` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
 ```
 #Create Todo Table SQL
 ```
-CREATE TABLE `TodoComment` (
+CREATE TABLE `Todo` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(11) unsigned NOT NULL,
-  `todo_id` bigint(11) unsigned NOT NULL,
-  `visibility_type` tinyint(1) unsigned NOT NULL,
+  `todo_type` tinyint(4) unsigned NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `content` varchar(1500) NOT NULL,
   `author` varchar(20) NOT NULL,
-  `content` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
-  KEY `idx_TodoComment_user_id` (`user_id`),
-  KEY `idx_TodoComment_created_at` (`created_at`),
-  KEY `idx_TodoComment_updated_at` (`updated_at`),
-  KEY `idx_TodoComment_todo_id` (`todo_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  KEY `idx_Todo_created_at` (`created_at`),
+  KEY `idx_Todo_updated_at` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8
 ```
 #Create TodoComment Table SQL
 ```
