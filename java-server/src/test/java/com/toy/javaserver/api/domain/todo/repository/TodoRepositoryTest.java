@@ -60,4 +60,45 @@ class TodoRepositoryTest {
         assertThat(result.getId()).isEqualTo(todoOrm.getId());
         assertThat(result.getAuthor()).isEqualTo(todoOrm.getAuthor());
     }
+
+    @Test
+    @Transactional
+    @DisplayName("할일 등록 JPA 테스트")
+    void insertedTodo() {
+        // given
+        TodoOrm insertTodoOrm = new TodoOrm();
+
+        insertTodoOrm.setUserId(1L);
+        insertTodoOrm.setTodoType(TodoType.DO_TO);
+        insertTodoOrm.setTitle("테스트");
+        insertTodoOrm.setContent("테스트");
+        insertTodoOrm.setAuthor("관리자");
+        insertTodoOrm.setTodoCommentOrms(Collections.emptyList());
+
+        // then
+        TodoOrm result = todoRepository.save(insertTodoOrm);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(insertTodoOrm.getId());
+        assertThat(result.getAuthor()).isEqualTo(insertTodoOrm.getAuthor());
+    }
+
+    @Test
+    @Transactional
+    @DisplayName("할일 수정 JPA 테스트")
+    void updatedTodo() {
+        // given
+        this.todoOrm.setTodoType(TodoType.PROGRESS);
+        this.todoOrm.setTitle("테스트1");
+        this.todoOrm.setContent("테스트");
+
+        // then
+        TodoOrm result = todoRepository.save(this.todoOrm);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(this.todoOrm.getId());
+        assertThat(result.getTodoType()).isEqualTo(this.todoOrm.getTodoType());
+        assertThat(result.getTitle()).isEqualTo(this.todoOrm.getTitle());
+        assertThat(result.getContent()).isEqualTo(this.todoOrm.getContent());
+    }
 }

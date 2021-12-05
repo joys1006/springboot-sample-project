@@ -15,7 +15,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EnableApiResponse
+@EnableApiResponse // Response시에 Response Model을 자동으로 붙여주는 역활
 @SpringBootApplication(
 		scanBasePackages = {"com.toy.javaserver.api"},
 		exclude = {DataSourceTransactionManagerAutoConfiguration.class, DataSourceAutoConfiguration.class})
