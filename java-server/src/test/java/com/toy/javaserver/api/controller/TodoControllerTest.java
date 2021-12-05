@@ -40,7 +40,7 @@ class TodoControllerTest {
 
     @Test
     @DisplayName("할일 단건 조회 성공 테스트")
-    void getTodos() throws Exception {
+    void getTodo() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/v1/todos/{todoId}", 1)
                 .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON);
