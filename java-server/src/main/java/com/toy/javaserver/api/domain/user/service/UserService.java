@@ -1,8 +1,9 @@
 package com.toy.javaserver.api.domain.user.service;
 
+import com.toy.javaserver.api.common.dto.request.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
-import com.toy.javaserver.api.common.dto.request.SignUpRequestDto;
-import com.toy.javaserver.api.common.dto.response.SignInResponse;
+import com.toy.javaserver.api.common.dto.request.UnregisterRequestDto;
+import com.toy.javaserver.api.common.dto.response.RegisterResponse;
 import com.toy.javaserver.api.common.exception.ApiException;
 import com.toy.javaserver.api.common.support.BCryptPasswordEncoderSupport;
 import com.toy.javaserver.api.common.utils.sercurity.JwtTokenProvider;
@@ -11,15 +12,10 @@ import com.toy.javaserver.api.domain.user.orm.UserOrm;
 import com.toy.javaserver.api.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +28,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional(readOnly = true)
-    public SignInResponse signIn(SignInRequestDto request) {
+    public RegisterResponse signIn(SignInRequestDto request) {
         UserDto user = userRepository.findByUserId(request.getUserId()).map(UserDto::new)
                 .orElseThrow(() -> new ApiException("로그인 정보가 없습니다.", HttpStatus.BAD_REQUEST));
 
@@ -42,7 +38,7 @@ public class UserService {
 
         String token = jwtTokenProvider.createToken(String.valueOf(user.getUserId()));
 
-        SignInResponse result = new SignInResponse();
+        RegisterResponse result = new RegisterResponse();
 
         result.setToken(token);
 
@@ -50,7 +46,7 @@ public class UserService {
     }
 
     @Transactional
-    public SignInResponse signUp(SignUpRequestDto request) {
+    public RegisterResponse register(RegisterRequestDto request) {
         UserOrm userOrm = new UserOrm();
 
         userOrm.setUserId(request.getUserId());
@@ -68,10 +64,24 @@ public class UserService {
 
         String token = jwtTokenProvider.createToken(saveUserOrm.getUserId());
 
-        SignInResponse result = new SignInResponse();
+        RegisterResponse result = new RegisterResponse();
 
         result.setToken(token);
 
         return result;
+    }
+
+    @Transactional
+    public HttpStatus unregister(UnregisterRequestDto request) {
+        UserDto user = userRepository.findByUserId(request.getUserId()).map(UserDto::new)
+                .orElseThrow(() -> new ApiException("계정 정보가 없습니다.", HttpStatus.BAD_REQUEST));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ApiException("패스워드가 틀립니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        userRepository.deleteById(user.getId());
+
+        return HttpStatus.OK;
     }
 }

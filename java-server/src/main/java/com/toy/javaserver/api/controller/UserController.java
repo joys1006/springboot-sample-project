@@ -1,17 +1,16 @@
 package com.toy.javaserver.api.controller;
 
+import com.toy.javaserver.api.common.dto.request.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
-import com.toy.javaserver.api.common.dto.request.SignUpRequestDto;
-import com.toy.javaserver.api.common.dto.response.SignInResponse;
+import com.toy.javaserver.api.common.dto.request.UnregisterRequestDto;
+import com.toy.javaserver.api.common.dto.response.RegisterResponse;
 import com.toy.javaserver.api.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -26,13 +25,19 @@ public class UserController {
 
     @ApiOperation(value = "로그인", notes = "로그인 API")
     @PostMapping(value = "/sign-in")
-    public SignInResponse signIn(@RequestBody @Valid SignInRequestDto request) {
+    public RegisterResponse signIn(@RequestBody @Valid SignInRequestDto request) {
         return userService.signIn(request);
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 API")
-    @PostMapping(value = "/sign-up")
-    public SignInResponse singUp(@RequestBody @Valid SignUpRequestDto request) {
-        return userService.signUp(request);
+    @PostMapping(value = "/register")
+    public RegisterResponse register(@RequestBody @Valid RegisterRequestDto request) {
+        return userService.register(request);
+    }
+
+    @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴 API")
+    @DeleteMapping(value = "/unregister")
+    public HttpStatus unregister(@RequestBody @Valid UnregisterRequestDto request) {
+        return userService.unregister(request);
     }
 }
