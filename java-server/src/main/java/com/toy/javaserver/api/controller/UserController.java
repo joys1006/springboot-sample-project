@@ -26,18 +26,24 @@ public class UserController {
     @ApiOperation(value = "로그인", notes = "로그인 API")
     @PostMapping(value = "/sign-in")
     public RegisterResponse signIn(@RequestBody @Valid SignInRequestDto request) {
+        request.validate();
+
         return userService.signIn(request);
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 API")
     @PostMapping(value = "/register")
     public RegisterResponse register(@RequestBody @Valid RegisterRequestDto request) {
+        request.validate();
+
         return userService.register(request);
     }
 
     @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴 API")
     @DeleteMapping(value = "/unregister")
     public HttpStatus unregister(@RequestBody @Valid UnregisterRequestDto request) {
+        request.validate();
+
         return userService.unregister(request);
     }
 }
