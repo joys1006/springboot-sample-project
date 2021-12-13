@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 @Data
-public class SignUpRequestDto {
+public class RegisterRequestDto {
     @ApiParam(value = "회원ID", required = true)
     public String userId;
     @ApiParam(value = "비밀번호", required = true)

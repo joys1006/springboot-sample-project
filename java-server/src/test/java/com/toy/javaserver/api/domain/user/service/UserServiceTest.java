@@ -1,9 +1,9 @@
 package com.toy.javaserver.api.domain.user.service;
 
+import com.toy.javaserver.api.common.dto.request.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
-import com.toy.javaserver.api.common.dto.request.SignUpRequestDto;
-import com.toy.javaserver.api.common.dto.response.SignInResponse;
-import com.toy.javaserver.api.common.exception.ApiException;
+import com.toy.javaserver.api.common.dto.request.UnregisterRequestDto;
+import com.toy.javaserver.api.common.dto.response.RegisterResponse;
 import com.toy.javaserver.api.common.support.BCryptPasswordEncoderSupport;
 import com.toy.javaserver.api.common.utils.sercurity.JwtTokenProvider;
 import com.toy.javaserver.api.domain.user.orm.UserOrm;
@@ -44,7 +44,7 @@ class UserServiceTest {
     private static final String testToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MSIsImlhdCI6MTYzODEwODMyMywiZXhwIjoxNjM4MTExOTIzfQ.GGoHv6A0acQ9CZl30PMHiBDo7OjKENkHyiKYoPv1fFA";
 
     @Test
-    @DisplayName("로그인 서비스 성공 케이스")
+    @DisplayName("로그인 서비스 테스트")
     void signIn() {
         SignInRequestDto request = new SignInRequestDto();
 
@@ -59,39 +59,16 @@ class UserServiceTest {
         when(userRepository.findByUserId(request.getUserId())).thenReturn(Optional.of(userOrm));
         when(jwtTokenProvider.createToken(anyString())).thenReturn(this.testToken);
 
-        SignInResponse result = userService.signIn(request);
+        RegisterResponse result = userService.signIn(request);
 
         assertThat(result).isNotNull();
         assertThat(result.getToken()).isEqualTo(this.testToken);
     }
 
     @Test
-    @DisplayName("로그인 서비스 실패 테스트")
-    void signInFailed() {
-        try {
-            SignInRequestDto request = new SignInRequestDto();
-
-            request.setUserId("test1");
-            request.setPassword("1235");
-
-            UserOrm userOrm = new UserOrm();
-
-            userOrm.setUserId(request.getUserId());
-            userOrm.setPassword("$2y$10$lvrwYg8h7LSMSDo/i8HrwOuR3gD/lC4oYYF7YevobQ2xw7xJ8WHsm");
-
-            when(userRepository.findByUserId(request.getUserId())).thenReturn(Optional.of(userOrm));
-
-            SignInResponse result = userService.signIn(request);
-        } catch (ApiException e) {
-            assertThat(e.getHttpStatus()).isEqualTo(HttpStatus.BAD_REQUEST);
-            assertThat(e.getMessage()).isEqualTo("패스워드가 틀립니다.");
-        }
-    }
-
-    @Test
     @DisplayName("회원가입 서비스 테스트")
-    void signUp() {
-        SignUpRequestDto request = new SignUpRequestDto();
+    void register() {
+        RegisterRequestDto request = new RegisterRequestDto();
 
         request.setUserId("test");
         request.setPassword("1234");
@@ -109,8 +86,30 @@ class UserServiceTest {
         when(userRepository.save(any())).thenReturn(userOrm);
         when(jwtTokenProvider.createToken(anyString())).thenReturn(this.testToken);
 
-        SignInResponse result = userService.signUp(request);
+        RegisterResponse result = userService.register(request);
 
         assertThat(result).isNotNull();
+        assertThat(result.getToken()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("회원탈퇴 서비스 테스트")
+    void unregister() {
+        UnregisterRequestDto request = new UnregisterRequestDto();
+
+        request.setUserId("test");
+        request.setPassword("1234");
+
+        UserOrm userOrm = new UserOrm();
+
+        userOrm.setUserId(request.getUserId());
+        userOrm.setPassword("$2y$10$lvrwYg8h7LSMSDo/i8HrwOuR3gD/lC4oYYF7YevobQ2xw7xJ8WHsm");
+
+        when(userRepository.findByUserId(request.getUserId())).thenReturn(Optional.of(userOrm));
+
+        HttpStatus result = userService.unregister(request);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getReasonPhrase()).isEqualTo("OK");
     }
 }
