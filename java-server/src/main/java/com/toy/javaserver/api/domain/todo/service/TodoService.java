@@ -1,7 +1,7 @@
 package com.toy.javaserver.api.domain.todo.service;
 
-import com.toy.javaserver.api.common.dto.request.InsertTodoRequest;
-import com.toy.javaserver.api.common.dto.request.UpdateTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
 import com.toy.javaserver.api.common.utils.MapperSupport;
 import com.toy.javaserver.api.domain.todo.dto.TodoDto;
 import com.toy.javaserver.api.domain.todo.orm.TodoOrm;

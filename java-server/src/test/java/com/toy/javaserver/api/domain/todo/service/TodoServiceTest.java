@@ -1,7 +1,7 @@
 package com.toy.javaserver.api.domain.todo.service;
 
-import com.toy.javaserver.api.common.dto.request.InsertTodoRequest;
-import com.toy.javaserver.api.common.dto.request.UpdateTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
 import com.toy.javaserver.api.common.utils.MapperSupport;
 import com.toy.javaserver.api.domain.todo.dto.TodoDto;
 import com.toy.javaserver.api.domain.todo.enums.TodoType;
@@ -18,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)

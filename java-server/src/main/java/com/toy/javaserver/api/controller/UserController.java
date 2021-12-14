@@ -1,9 +1,9 @@
 package com.toy.javaserver.api.controller;
 
-import com.toy.javaserver.api.common.dto.request.RegisterRequestDto;
-import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
-import com.toy.javaserver.api.common.dto.request.UnregisterRequestDto;
-import com.toy.javaserver.api.common.dto.response.RegisterResponse;
+import com.toy.javaserver.api.common.dto.request.user.RegisterRequestDto;
+import com.toy.javaserver.api.common.dto.request.user.SignInRequestDto;
+import com.toy.javaserver.api.common.dto.request.user.UnregisterRequestDto;
+import com.toy.javaserver.api.common.dto.response.user.RegisterResponse;
 import com.toy.javaserver.api.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

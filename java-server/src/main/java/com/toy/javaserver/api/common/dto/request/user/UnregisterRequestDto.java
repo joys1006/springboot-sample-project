@@ -1,4 +1,4 @@
-package com.toy.javaserver.api.common.dto.request;
+package com.toy.javaserver.api.common.dto.request.user;
 
 import com.toy.javaserver.api.common.annotation.CustomProperty;
 import com.toy.javaserver.api.common.exception.ApiException;

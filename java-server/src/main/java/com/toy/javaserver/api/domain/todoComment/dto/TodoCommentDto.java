@@ -1,6 +1,8 @@
 package com.toy.javaserver.api.domain.todoComment.dto;
 
+import com.toy.javaserver.api.common.utils.MapperSupport;
 import com.toy.javaserver.api.domain.todoComment.enums.VisibilityType;
+import com.toy.javaserver.api.domain.todoComment.orm.TodoCommentOrm;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -23,4 +25,8 @@ public class TodoCommentDto {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public TodoCommentDto(TodoCommentOrm todoCommentOrm) {
+        MapperSupport.map(todoCommentOrm, this);
+    }
 }

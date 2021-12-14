@@ -1,6 +1,5 @@
 package com.toy.javaserver.api.domain.user.repository;
 
-import com.toy.javaserver.api.domain.todo.orm.TodoOrm;
 import com.toy.javaserver.api.domain.user.orm.UserOrm;
 import org.springframework.data.jpa.repository.JpaRepository;
 

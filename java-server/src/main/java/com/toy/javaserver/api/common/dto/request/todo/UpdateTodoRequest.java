@@ -1,4 +1,4 @@
-package com.toy.javaserver.api.common.dto.request;
+package com.toy.javaserver.api.common.dto.request.todo;
 
 import com.toy.javaserver.api.common.annotation.CustomProperty;
 import com.toy.javaserver.api.domain.todo.enums.TodoType;

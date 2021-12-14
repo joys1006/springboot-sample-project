@@ -1,9 +1,12 @@
 package com.toy.javaserver.api.controller;
 
-import com.toy.javaserver.api.common.dto.request.InsertTodoRequest;
-import com.toy.javaserver.api.common.dto.request.UpdateTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoCommentRequest;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
 import com.toy.javaserver.api.domain.todo.dto.TodoDto;
 import com.toy.javaserver.api.domain.todo.service.TodoService;
+import com.toy.javaserver.api.domain.todoComment.dto.TodoCommentDto;
+import com.toy.javaserver.api.domain.todoComment.service.TodoCommentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +22,10 @@ import javax.validation.Valid;
 @Api(value = "할일 API 컨트롤러", description = "할일 API 컨트롤러")
 @RequiredArgsConstructor
 public class TodoController {
+
     private final TodoService todoService;
+
+    private final TodoCommentService todoCommentService;
 
     @GetMapping("/{todoId}")
     @ApiOperation(value = "할일 단건 조회")
@@ -54,5 +60,13 @@ public class TodoController {
             @PathVariable(value = "todoId") Long todoId
     ) {
         return todoService.deletedTodo(todoId);
+    }
+
+    @PostMapping("/{todoId}/comment")
+    public TodoCommentDto insertedTodoComment(
+            @PathVariable(value = "todoId") Long todoId,
+            @RequestBody @Valid InsertTodoCommentRequest request
+    ) {
+        return todoCommentService.insertedTodoComment(todoId, request);
     }
 }

@@ -1,9 +1,9 @@
 package com.toy.javaserver.api.domain.user.service;
 
-import com.toy.javaserver.api.common.dto.request.RegisterRequestDto;
-import com.toy.javaserver.api.common.dto.request.SignInRequestDto;
-import com.toy.javaserver.api.common.dto.request.UnregisterRequestDto;
-import com.toy.javaserver.api.common.dto.response.RegisterResponse;
+import com.toy.javaserver.api.common.dto.request.user.RegisterRequestDto;
+import com.toy.javaserver.api.common.dto.request.user.SignInRequestDto;
+import com.toy.javaserver.api.common.dto.request.user.UnregisterRequestDto;
+import com.toy.javaserver.api.common.dto.response.user.RegisterResponse;
 import com.toy.javaserver.api.common.support.BCryptPasswordEncoderSupport;
 import com.toy.javaserver.api.common.utils.sercurity.JwtTokenProvider;
 import com.toy.javaserver.api.domain.user.orm.UserOrm;

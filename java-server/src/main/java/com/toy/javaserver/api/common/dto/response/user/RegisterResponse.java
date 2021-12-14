@@ -1,4 +1,4 @@
-package com.toy.javaserver.api.common.dto.response;
+package com.toy.javaserver.api.common.dto.response.user;
 
 import lombok.Data;
 

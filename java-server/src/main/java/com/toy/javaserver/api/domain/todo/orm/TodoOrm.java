@@ -1,8 +1,7 @@
 package com.toy.javaserver.api.domain.todo.orm;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.toy.javaserver.api.common.dto.request.InsertTodoRequest;
-import com.toy.javaserver.api.common.dto.request.UpdateTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
 import com.toy.javaserver.api.domain.todo.entity.TodoEntity;
 import com.toy.javaserver.api.domain.todoComment.orm.TodoCommentOrm;
 import lombok.AccessLevel;

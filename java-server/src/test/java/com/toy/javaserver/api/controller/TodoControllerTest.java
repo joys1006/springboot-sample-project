@@ -1,8 +1,11 @@
 package com.toy.javaserver.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoCommentRequest;
 import com.toy.javaserver.api.common.helpers.AuthorizedControllerHelper;
 import com.toy.javaserver.api.domain.todo.service.TodoService;
+import com.toy.javaserver.api.domain.todoComment.enums.VisibilityType;
+import com.toy.javaserver.api.domain.todoComment.service.TodoCommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,6 +41,9 @@ class TodoControllerTest {
     @MockBean
     private TodoService todoService;
 
+    @MockBean
+    private TodoCommentService todoCommentService;
+
     private HttpHeaders httpHeaders;
 
     @BeforeEach
@@ -61,5 +67,26 @@ class TodoControllerTest {
         mockMvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("할일 댓글 등록 성공 테스트")
+    void insertedTodoComment() throws Exception {
+        InsertTodoCommentRequest request = new InsertTodoCommentRequest();
+
+        request.setUserId(2L);
+        request.setAuthor("테스트");
+        request.setContent("테스트 작성자");
+        request.setVisibilityType(VisibilityType.PUBLIC);
+
+        MockHttpServletRequestBuilder requestBuilder = post("/v1/todos/{todoId}/comment", 1)
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request));
+
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 }
