@@ -1,6 +1,7 @@
 package com.toy.javaserver.api.domain.todoComment.service;
 
 import com.toy.javaserver.api.common.dto.request.todo.InsertTodoCommentRequest;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoCommentRequest;
 import com.toy.javaserver.api.domain.todo.orm.TodoOrm;
 import com.toy.javaserver.api.domain.todo.repository.TodoRepository;
 import com.toy.javaserver.api.domain.todoComment.dto.TodoCommentDto;
@@ -53,9 +54,11 @@ class TodoCommentServiceTest {
         UserOrm userOrm = new UserOrm();
 
         todoOrm.setId(todoId);
+        todoOrm.setUserId(request.getUserId());
         userOrm.setId(request.getUserId());
 
-        TodoCommentOrm todoCommentOrm = new TodoCommentOrm().createdTodoCommentOrm(todoId, userOrm.getId(), request);
+        TodoCommentOrm todoCommentOrm = new TodoCommentOrm()
+                .createdTodoCommentOrm(todoId, userOrm.getId(), request);
 
         when(todoRepository.findById(todoId)).thenReturn(Optional.ofNullable(todoOrm));
         when(userRepository.findById(request.getUserId())).thenReturn(Optional.ofNullable(userOrm));
@@ -68,5 +71,40 @@ class TodoCommentServiceTest {
         assertThat(result.getUserId()).isEqualTo(todoCommentOrm.getUserId());
         assertThat(result.getContent()).isEqualTo(todoCommentOrm.getContent());
         assertThat(result.getAuthor()).isEqualTo(todoCommentOrm.getAuthor());
+    }
+
+    @Test
+    @DisplayName("할일 댓글 수정 성공 테스트")
+    void updatedTodoComment() {
+        UpdateTodoCommentRequest request = new UpdateTodoCommentRequest();
+        Long todoId = 1L;
+        Long todoCommentId = 1L;
+
+        request.setUserId(2L);
+        request.setContent("테스트 작성자");
+        request.setVisibilityType(VisibilityType.PUBLIC);
+
+        UserOrm userOrm = new UserOrm();
+
+        userOrm.setId(request.getUserId());
+
+        TodoCommentOrm todoCommentOrm = new TodoCommentOrm();
+
+        todoCommentOrm.setTodoId(todoId);
+        todoCommentOrm.setUserId(userOrm.getId());
+        todoCommentOrm.setContent("원본 내용");
+
+        when(todoCommentRepository.findByIdAndTodoId(todoCommentId, todoId)).thenReturn(Optional.ofNullable(todoCommentOrm));
+        when(userRepository.findById(request.getUserId())).thenReturn(Optional.ofNullable(userOrm));
+
+        todoCommentOrm.setContent(request.getContent());
+
+        when(todoCommentRepository.save(any())).thenReturn(todoCommentOrm);
+
+        TodoCommentDto result = todoCommentService.updatedTodoComment(todoId, todoCommentId, request);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getTodoId()).isEqualTo(todoCommentOrm.getTodoId());
+        assertThat(result.getContent()).isEqualTo(todoCommentOrm.getContent()); // 내용이 리퀘스트에 요청한 내용대로 변경되면 OK
     }
 }

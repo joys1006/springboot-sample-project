@@ -1,8 +1,6 @@
 package com.toy.javaserver.api.controller;
 
-import com.toy.javaserver.api.common.dto.request.todo.InsertTodoCommentRequest;
-import com.toy.javaserver.api.common.dto.request.todo.InsertTodoRequest;
-import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
+import com.toy.javaserver.api.common.dto.request.todo.*;
 import com.toy.javaserver.api.domain.todo.dto.TodoDto;
 import com.toy.javaserver.api.domain.todo.service.TodoService;
 import com.toy.javaserver.api.domain.todoComment.dto.TodoCommentDto;
@@ -62,11 +60,36 @@ public class TodoController {
         return todoService.deletedTodo(todoId);
     }
 
-    @PostMapping("/{todoId}/comment")
+    @PostMapping("/{todoId}/comments")
+    @ApiOperation(value ="할일 댓글 등록")
     public TodoCommentDto insertedTodoComment(
             @PathVariable(value = "todoId") Long todoId,
             @RequestBody @Valid InsertTodoCommentRequest request
     ) {
+        request.validate();
+
         return todoCommentService.insertedTodoComment(todoId, request);
+    }
+
+    @PatchMapping("/{todoId}/comments/{todoCommentId}")
+    @ApiOperation(value = "할일 댓글 수정")
+    public TodoCommentDto updatedTodoComment(
+            @PathVariable(value = "todoId") Long todoId,
+            @PathVariable(value = "todoCommentId") Long todoCommentId,
+            @RequestBody @Valid UpdateTodoCommentRequest request
+    ) {
+        request.validate();
+
+        return todoCommentService.updatedTodoComment(todoId, todoCommentId, request);
+    }
+
+    @DeleteMapping("/{todoId}/comments/{todoCommentId}")
+    @ApiOperation(value = "할일 댓글 삭제")
+    public HttpStatus deletedTodoComment(
+            @PathVariable(value = "todoId") Long todoId,
+            @PathVariable(value = "todoCommentId") Long todoCommentId,
+            @RequestBody @Valid DeleteTodoCommentRequest request
+    ) {
+        return todoCommentService.deletedTodoComment(todoId, todoCommentId, request);
     }
 }

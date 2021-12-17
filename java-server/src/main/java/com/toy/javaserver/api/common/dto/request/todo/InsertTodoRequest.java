@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
+import javax.validation.constraints.Size;
 import java.util.Optional;
 
 @Data
@@ -19,12 +20,15 @@ public class InsertTodoRequest {
     private TodoType todoType;
     @CustomProperty
     @ApiParam(value = "제목", readOnly = true)
+    @Size(min = 1, max = 50, message = "제목 입력 길이는 1~50까지만 입력가능합니다.")
     private String title;
     @CustomProperty
     @ApiParam(value = "내용", readOnly = true)
+    @Size(min = 1, max = 1500, message = "내용 입력 길이는 1~1500까지만 입력가능합니다.")
     private String content;
     @CustomProperty
     @ApiParam(value = "작성자", readOnly = true)
+    @Size(min = 1, max = 20, message = "작성자 입력 길이는 1~20까지만 입력가능합니다.")
     private String author;
 
     public void validate() {
