@@ -40,7 +40,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "회원탈퇴", notes = "회원탈퇴 API")
-    @DeleteMapping(value = "/unregister")
+    @PostMapping(value = "/unregister")
     public HttpStatus unregister(@RequestBody @Valid UnregisterRequestDto request) {
         request.validate();
 
