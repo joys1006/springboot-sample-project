@@ -2,9 +2,11 @@ package com.toy.javaserver.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.toy.javaserver.api.common.dto.request.todo.InsertTodoCommentRequest;
+import com.toy.javaserver.api.common.dto.request.todo.InsertTodoRequest;
 import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoCommentRequest;
-import com.toy.javaserver.api.common.exception.ApiException;
+import com.toy.javaserver.api.common.dto.request.todo.UpdateTodoRequest;
 import com.toy.javaserver.api.common.helpers.AuthorizedControllerHelper;
+import com.toy.javaserver.api.domain.todo.enums.TodoType;
 import com.toy.javaserver.api.domain.todo.service.TodoService;
 import com.toy.javaserver.api.domain.todoComment.enums.VisibilityType;
 import com.toy.javaserver.api.domain.todoComment.service.TodoCommentService;
@@ -15,16 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,6 +67,58 @@ class TodoControllerTest {
     @DisplayName("할일 단건 조회 성공 테스트")
     void getTodo() throws Exception {
         MockHttpServletRequestBuilder requestBuilder = get("/v1/todos/{todoId}", 1)
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("할일 등록 성공 테스트")
+    void insertedTodo() throws Exception {
+        InsertTodoRequest request = new InsertTodoRequest();
+
+        request.setUserId(2L);
+        request.setTodoType(TodoType.DO_TO);
+        request.setTitle("test");
+        request.setContent("test");
+        request.setAuthor("테스터");
+
+        MockHttpServletRequestBuilder requestBuilder = post("/v1/todos")
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request));
+
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("할일 수정 성공 테스트")
+    void updatedTodo() throws Exception {
+        UpdateTodoRequest request = new UpdateTodoRequest();
+
+        request.setTodoType(TodoType.DO_TO);
+        request.setTitle("test");
+        request.setContent("test");
+
+        MockHttpServletRequestBuilder requestBuilder = put("/v1/todos/{todoId}", 1)
+                .headers(httpHeaders)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request));
+
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("할일 삭제 성공 테스트")
+    void deletedTodo() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = delete("/v1/todos/{todoId}", 1)
                 .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON);
 

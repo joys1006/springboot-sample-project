@@ -68,7 +68,7 @@ CREATE TABLE `TodoComment` (
   `todo_id` bigint(11) unsigned NOT NULL,
   `visibility_type` tinyint(1) unsigned NOT NULL,
   `author` varchar(20) NOT NULL,
-  `content` varchar(45) NOT NULL,
+  `content` varchar(100) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
