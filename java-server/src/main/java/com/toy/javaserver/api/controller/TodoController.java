@@ -38,8 +38,6 @@ public class TodoController {
     public TodoDto insertedTodo(
             @RequestBody @Valid InsertTodoRequest request
     ) {
-        request.validate();
-
         return todoService.insertedTodo(request);
     }
 
@@ -49,6 +47,8 @@ public class TodoController {
             @PathVariable(value = "todoId") Long todoId,
             @RequestBody @Valid UpdateTodoRequest request
     ) {
+        request.validate();
+
         return todoService.updatedTodo(todoId, request);
     }
 
@@ -66,8 +66,6 @@ public class TodoController {
             @PathVariable(value = "todoId") Long todoId,
             @RequestBody @Valid InsertTodoCommentRequest request
     ) {
-        request.validate();
-
         return todoCommentService.insertedTodoComment(todoId, request);
     }
 

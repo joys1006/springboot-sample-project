@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class DeleteTodoCommentRequest {
-    @CustomProperty
+    @CustomProperty(nullable = false)
     @ApiParam(value = "유저 PK", readOnly = true)
     private Long userId;
 }
