@@ -98,7 +98,7 @@ class UserControllerTest {
         request.setUserId("test");
         request.setPassword("1234");
 
-        MockHttpServletRequestBuilder requestBuilder = delete("/v1/users/unregister")
+        MockHttpServletRequestBuilder requestBuilder = post("/v1/users/unregister")
                 .headers(httpHeaders)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request));
