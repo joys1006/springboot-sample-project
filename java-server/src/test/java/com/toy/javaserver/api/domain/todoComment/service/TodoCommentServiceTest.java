@@ -105,6 +105,6 @@ class TodoCommentServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result.getTodoId()).isEqualTo(todoCommentOrm.getTodoId());
-        assertThat(result.getContent()).isEqualTo(todoCommentOrm.getContent()); // 내용이 리퀘스트에 요청한 내용대로 변경되면 OK
+        assertThat(result.getContent()).isEqualTo(request.getContent()); // 내용이 리퀘스트에 요청한 내용대로 변경되면 OK
     }
 }
