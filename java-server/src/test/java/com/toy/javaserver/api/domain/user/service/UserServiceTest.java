@@ -3,7 +3,7 @@ package com.toy.javaserver.api.domain.user.service;
 import com.toy.javaserver.api.common.dto.request.user.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.SignInRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.UnregisterRequestDto;
-import com.toy.javaserver.api.common.dto.response.user.RegisterResponse;
+import com.toy.javaserver.api.common.dto.response.user.SignInResponse;
 import com.toy.javaserver.api.common.support.BCryptPasswordEncoderSupport;
 import com.toy.javaserver.api.common.utils.sercurity.JwtTokenProvider;
 import com.toy.javaserver.api.domain.user.orm.UserOrm;
@@ -59,7 +59,7 @@ class UserServiceTest {
         when(userRepository.findByUserId(request.getUserId())).thenReturn(Optional.of(userOrm));
         when(jwtTokenProvider.createToken(anyString())).thenReturn(this.testToken);
 
-        RegisterResponse result = userService.signIn(request);
+        SignInResponse result = userService.signIn(request);
 
         assertThat(result).isNotNull();
         assertThat(result.getToken()).isEqualTo(this.testToken);
@@ -86,7 +86,7 @@ class UserServiceTest {
         when(userRepository.save(any())).thenReturn(userOrm);
         when(jwtTokenProvider.createToken(anyString())).thenReturn(this.testToken);
 
-        RegisterResponse result = userService.register(request);
+        SignInResponse result = userService.register(request);
 
         assertThat(result).isNotNull();
         assertThat(result.getToken()).isNotNull();

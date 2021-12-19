@@ -3,7 +3,7 @@ package com.toy.javaserver.api.controller;
 import com.toy.javaserver.api.common.dto.request.user.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.SignInRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.UnregisterRequestDto;
-import com.toy.javaserver.api.common.dto.response.user.RegisterResponse;
+import com.toy.javaserver.api.common.dto.response.user.SignInResponse;
 import com.toy.javaserver.api.domain.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,13 +25,13 @@ public class UserController {
 
     @ApiOperation(value = "로그인", notes = "로그인 API")
     @PostMapping(value = "/sign-in")
-    public RegisterResponse signIn(@RequestBody @Valid SignInRequestDto request) {
+    public SignInResponse signIn(@RequestBody @Valid SignInRequestDto request) {
         return userService.signIn(request);
     }
 
     @ApiOperation(value = "회원가입", notes = "회원가입 API")
     @PostMapping(value = "/register")
-    public RegisterResponse register(@RequestBody @Valid RegisterRequestDto request) {
+    public SignInResponse register(@RequestBody @Valid RegisterRequestDto request) {
         return userService.register(request);
     }
 

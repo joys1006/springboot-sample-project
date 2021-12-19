@@ -3,7 +3,7 @@ package com.toy.javaserver.api.domain.user.service;
 import com.toy.javaserver.api.common.dto.request.user.RegisterRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.SignInRequestDto;
 import com.toy.javaserver.api.common.dto.request.user.UnregisterRequestDto;
-import com.toy.javaserver.api.common.dto.response.user.RegisterResponse;
+import com.toy.javaserver.api.common.dto.response.user.SignInResponse;
 import com.toy.javaserver.api.common.exception.ApiException;
 import com.toy.javaserver.api.common.support.BCryptPasswordEncoderSupport;
 import com.toy.javaserver.api.common.utils.sercurity.JwtTokenProvider;
@@ -28,7 +28,7 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional(readOnly = true)
-    public RegisterResponse signIn(SignInRequestDto request) {
+    public SignInResponse signIn(SignInRequestDto request) {
         UserDto user = userRepository.findByUserId(request.getUserId()).map(UserDto::new)
                 .orElseThrow(() -> new ApiException("로그인 정보가 없습니다.", HttpStatus.BAD_REQUEST));
 
@@ -38,7 +38,7 @@ public class UserService {
 
         String token = jwtTokenProvider.createToken(String.valueOf(user.getUserId()));
 
-        RegisterResponse result = new RegisterResponse();
+        SignInResponse result = new SignInResponse();
 
         result.setToken(token);
 
@@ -46,7 +46,7 @@ public class UserService {
     }
 
     @Transactional
-    public RegisterResponse register(RegisterRequestDto request) {
+    public SignInResponse register(RegisterRequestDto request) {
         UserOrm userOrm = new UserOrm();
 
         userOrm.setUserId(request.getUserId());
@@ -64,7 +64,7 @@ public class UserService {
 
         String token = jwtTokenProvider.createToken(saveUserOrm.getUserId());
 
-        RegisterResponse result = new RegisterResponse();
+        SignInResponse result = new SignInResponse();
 
         result.setToken(token);
 
